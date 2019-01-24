@@ -1,6 +1,6 @@
 //2019-01-25 JANGWON KIM
 //*MY QUICK SORTING*
-
+//#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 int size;
@@ -77,15 +77,19 @@ void q_sorting(int* array, int first, int last, int k) //q_sorting(배열 이름
 
 int main()
 {
-	/*int A[13] = { 4,1,6,3,5,2,2,5,3,7,9,0,5 };
-	size = 13;
-	q_sorting(A, 0, size-1,0);
-
-	for (int i = 0; i < size; i++)
+	int N;
+	scanf("%d", &N);
+	int* array = (int*)malloc(N * sizeof(int));
+	for (int i = 0; i < N; i++)
 	{
-		printf("%d ", A[i]);
+		scanf("%d", &array[i]);
 	}
-	printf("\n");*/
+
+	q_sorting(array, 0, N - 1, 1);
+	for (int i = 0; i < N; i++)
+	{
+		printf("%d\n", array[i]);
+	}
 
 	return 0;
 }
