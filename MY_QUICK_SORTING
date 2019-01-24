@@ -1,10 +1,9 @@
 //2019-01-25 JANGWON KIM
-//MY QUICK SORTING
+//*MY QUICK SORTING*
 
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
-
+int size;
 void swap(int*a, int*b)
 {
 	int temp;
@@ -12,46 +11,77 @@ void swap(int*a, int*b)
 	*a = *b;
 	*b = temp;
 }
-int middle_value(int a, int b, int c)
+int middle_value(int* array, int a, int b, int c)
 {
-	if ((a >= b && b >= c) || (c >= b && b >= a))
+	if ((array[a] >= array[b] && array[b] >= array[c]) || (array[c] >= array[b] && array[b] >= array[a]))
 		return b;
-	else if ((b >= a && a >= c) || (c >= a && a >= b))
+	else if ((array[b] >= array[a] && array[a] >= array[c]) || (array[c] >= array[a] && array[a] >= array[b]))
 		return a;
 	else
 		return c;
 
 }
-void q_sorting(int* array, int first, int last) //q_sorting(배열 이름, 첫 인덱스, 마지막 인덱스)
-{
-	if (first == last)
+void q_sorting(int* array, int first, int last, int k) //q_sorting(배열 이름, 첫 인덱스, 마지막 인덱스, k값)
+{ // k=1이면 오름차순, k=0이면 내림차순
+
+	if (k == 1) //오름차순
 	{
-		return;
-	}
-	else
-	{
-		int pivot = middle_value(array[first], array[(last + first) / 2], array[last]);
-		int ptr = 0;
-		for (int i = 0; i < last - first + 1; i++)
+		if (first>=last)
 		{
-			if (array[first + i] < pivot)
-			{
-				swap(&array[first + ptr], &array[first + i]);
-				ptr = ptr + 1;
-			}
+			return;
 		}
-		q_sorting(array, first, first + ptr - 1);
-		q_sorting(array, first + ptr, last);
+		else
+		{
+			int pivot_index = middle_value(array, first, (first + last) / 2, last);
+			swap(&array[pivot_index], &array[last]); //우선 pivot을 끝으로 보낸다.
+			int ptr = first;
+			for (int i = first; i < last; i++) //pivot을 제외한 나머지 원소들을 기준에 따라 정렬한다.
+			{
+				if (array[i] < array[last])
+				{
+					swap(&array[i], &array[ptr]);
+					ptr = ptr + 1;
+				}
+			}
+			swap(&array[last], &array[ptr]); //마지막으로 pivot을 기준점으로 놓는다.
+			q_sorting(array, first, ptr - 1, k);
+			q_sorting(array, ptr + 1, last, k);
+		}
+	}
+	else //내림차순
+	{
+		if (first >= last)
+		{
+			return;
+		}
+		else
+		{
+			int pivot_index = middle_value(array, first, (first + last) / 2, last);
+			swap(&array[pivot_index], &array[last]);
+			int ptr = first;
+			for (int i = first; i < last; i++)
+			{
+				if (array[i] > array[last])
+				{
+					swap(&array[i], &array[ptr]);
+					ptr = ptr + 1;
+				}
+			}
+			swap(&array[last], &array[ptr]);
+			q_sorting(array, first, ptr - 1, k);
+			q_sorting(array, ptr + 1, last, k);
+		}
 	}
 
 }
 
 int main()
 {
-	int A[10] = { 4,1,6,3,8,5,9,0,7,2 };
-	/*q_sorting(A, 0, 9);
+	/*int A[13] = { 4,1,6,3,5,2,2,5,3,7,9,0,5 };
+	size = 13;
+	q_sorting(A, 0, size-1,0);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < size; i++)
 	{
 		printf("%d ", A[i]);
 	}
