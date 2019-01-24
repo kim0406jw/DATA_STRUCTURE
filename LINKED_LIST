@@ -1,6 +1,6 @@
 //2019-01-24 JANGWON KIM
 
-//*Circular double linked list*
+//*Doubly linked circular list*
 //노드는 1번부터 사용 및 시작. (head 노드의 번호는 1.)
 //명령 함수는 add, get, insert, delete.
 
