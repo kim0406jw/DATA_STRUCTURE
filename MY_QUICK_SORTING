@@ -1,0 +1,61 @@
+//2019-01-25 JANGWON KIM
+//MY QUICK SORTING
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+void swap(int*a, int*b)
+{
+	int temp;
+	temp=*a;
+	*a = *b;
+	*b = temp;
+}
+int middle_value(int a, int b, int c)
+{
+	if ((a >= b && b >= c) || (c >= b && b >= a))
+		return b;
+	else if ((b >= a && a >= c) || (c >= a && a >= b))
+		return a;
+	else
+		return c;
+
+}
+void q_sorting(int* array, int first, int last) //q_sorting(배열 이름, 첫 인덱스, 마지막 인덱스)
+{
+	if (first == last)
+	{
+		return;
+	}
+	else
+	{
+		int pivot = middle_value(array[first], array[(last + first) / 2], array[last]);
+		int ptr = 0;
+		for (int i = 0; i < last - first + 1; i++)
+		{
+			if (array[first + i] < pivot)
+			{
+				swap(&array[first + ptr], &array[first + i]);
+				ptr = ptr + 1;
+			}
+		}
+		q_sorting(array, first, first + ptr - 1);
+		q_sorting(array, first + ptr, last);
+	}
+
+}
+
+int main()
+{
+	int A[10] = { 4,1,6,3,8,5,9,0,7,2 };
+	/*q_sorting(A, 0, 9);
+
+	for (int i = 0; i < 10; i++)
+	{
+		printf("%d ", A[i]);
+	}
+	printf("\n");*/
+
+	return 0;
+}
