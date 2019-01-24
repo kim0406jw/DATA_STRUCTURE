@@ -10,8 +10,7 @@
 typedef struct node{
 	int key;
 	struct node* next;
-	struct node* prev;
-	
+	struct node* prev;	
 }NODE;
 
 int list_size; // 노드의 수
