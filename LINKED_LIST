@@ -85,7 +85,7 @@ void delete(int N, NODE** head) //N 번째 노드를 제거
 	}
 	else if (N > list_size)
 	{
-		printf("Error <delete>: The list has fewer number of nodes than N !\n");
+		printf("Error <delete>: The list has fewer number of nodes than N!\n");
 		return;
 	}
 	else if (N < 1)
@@ -139,7 +139,6 @@ void delete(int N, NODE** head) //N 번째 노드를 제거
 }
 void insert(int N, int key, NODE** head) //N 번째에 새로운 노드를 삽입
 {
-	//* 주의: N=1 일 때 head 노드가 바뀌어지고, N=list_size 일 때 add함수와 같이 작동한다. *
 
 	if (N < 1)
 	{
@@ -148,7 +147,7 @@ void insert(int N, int key, NODE** head) //N 번째에 새로운 노드를 삽�
 	}
 	else if (N > list_size)
 	{
-		printf("Error <insert>: N can't be bigger than list_size! Do you mean N=list_size?\n");
+		printf("Error <insert>: N can't be bigger than list_size!\n");
 		return;
 	}
 	else if (N == 1) // head 노드가 바뀌어 진다.
