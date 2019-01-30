@@ -1,0 +1,114 @@
+// 2019-01-30 JANGWON KIM
+// MY_MAX_HEAP
+
+// 함수는 build,insert,top 그리고 pop.
+#include <stdio.h>
+#include <stdlib.h>
+
+int heap_size;
+
+void swap(int*a, int*b)
+{
+	int temp = *a;
+	*a = *b;
+	*b = temp;
+}
+int fmax(int* heap, int a, int b)
+{  //a=2*pos, b=2*pos+1
+	if (b > heap_size)
+		return a;
+	else
+	{
+		if (heap[a] > heap[b])
+			return a;
+		else
+			return b;
+	}
+}
+
+void build(int* heap, int size)
+{
+	//공간(배열) heap을 느슨한 정렬상태로 재정렬.
+	//*주의* 공간 heap에서 첫번째 원소는 인덱스 1부터 시작(heap[1]->YES, heap[0]->NO)
+    //size=정렬할 공간에 있는 원소의 수
+
+	heap_size = size;
+	int pos = heap_size / 2;
+	while (pos >= 1)
+	{
+		int temp = pos;
+		while (2 * pos <= heap_size)
+		{
+			int child = fmax(heap, 2 * pos, 2 * pos + 1);
+			if (heap[pos] < heap[child])
+			{
+				swap(&heap[pos], &heap[child]);
+				pos = child;
+			}
+			else
+				break;
+		}
+		pos = temp - 1;
+	}
+}
+void insert(int* heap,int element)
+{
+	heap_size = heap_size + 1;
+	heap[heap_size] = element;
+	int pos = heap_size;
+	while (pos > 1)
+	{
+		if (heap[pos] > heap[pos / 2])
+		{
+			swap(&heap[pos], &heap[pos / 2]);
+			pos = pos / 2;
+		}
+		else
+			break;
+	}
+}
+int top(int* heap)
+{
+	if (heap_size >= 1)
+		return heap[1];
+	else
+		printf("Error: The heap is already empty!\n");
+}
+int pop(int* heap)
+{
+	if (heap_size >=1)
+	{
+		int top = heap[1];
+		swap(&heap[1], &heap[heap_size]);
+		heap_size = heap_size - 1;
+		int pos = 1;
+		while (2*pos <= heap_size)
+		{
+			int child = fmax(heap, 2 * pos, 2 * pos + 1);
+			if (heap[pos] < heap[child])
+			{
+				swap(&heap[pos], &heap[child]);
+				pos = child;
+			}
+			else
+				break;
+		}
+		return top;
+	}
+	else
+	{
+		printf("Error: The heap is already empty!\n");
+	}
+
+}
+
+
+int main()
+{
+	int heap[MAX];
+	heap_size = 0;
+	
+
+
+	return 0;
+}
