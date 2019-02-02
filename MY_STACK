@@ -1,0 +1,82 @@
+// 2019-02-02 JANGWON KIM
+// MY_STACK
+
+//#define _CRT_SECURE_NO_WARNINGS
+#define STACK_SIZE 100001
+#include <stdio.h>
+#include <stdlib.h>
+int stack_ptr = 0; //초기화
+int stack[STACK_SIZE];
+// 함수는 POP,TOP,PUSH,IsEmpty 그리고 SIZE
+// stack에 들어있는 값의 인덱스는 1부터 시작. 인덱스의 끝은 STACK_SIZE-1. (1~STACK_SIZE-1)
+
+int pop()
+{
+	if (stack_ptr >0 )
+	{
+		int element = stack[stack_ptr];
+		stack_ptr = stack_ptr - 1;
+		return element;
+	}
+	else
+		printf("Error: The stack is already empty!\n");
+}
+
+int top()
+{
+	if (stack_ptr > 0)
+	{
+		int element = stack[stack_ptr];
+		return element;
+	}
+	else
+		printf("Error: The stack is already empty!\n");
+	
+}
+
+void push(int element)
+{
+	if (stack_ptr < STACK_SIZE-1)
+	{
+		stack_ptr = stack_ptr + 1;
+		stack[stack_ptr] = element;
+	}
+	else
+		printf("Error: The stack is full!\n");
+}
+
+int IsEmpty()
+{
+	int k;
+	if (stack_ptr == 0)
+	{
+		k = 1; //맞으면 1을 반환
+		return k;
+	}
+	else
+	{
+		k = 0; //맞으면 0을 반환
+		return k;
+	}
+}
+
+int size()
+{ // 스택안의 원소들의 수를 반환.
+	int k;
+	if (stack_ptr < STACK_SIZE)
+	{
+		k = stack_ptr;
+		return k;
+	}
+	else
+	{
+		printf("The Stack is Full!\n");
+		return STACK_SIZE-1;
+	}
+} 
+
+int main()
+{
+	
+	return 0;
+}
