@@ -1,0 +1,93 @@
+// 2019-02-02 JANGWON KIM
+// MY_QUEUE (Circular Queue)
+//#define _CRT_SECURE_NO_WARNINGS
+#define QUEUE_SIZE 10000
+#include <stdio.h>
+#include <stdlib.h>
+//함수는 push,pop,size,IsEMpty,top, 그리고 back.
+//큐의 인덱스는 0부터 시작하여 QUEUE_SIZE-1 까지이다. (0~QUEUE_SIZE-1, 총 QUEUE_SIZE개의 원소).
+
+int queue[QUEUE_SIZE]; // 초기화
+int front = 0;
+int rear = 0;
+int queue_size = 0; //큐안의 원소의 개수.
+
+void push(int element)
+{
+	if (queue_size <QUEUE_SIZE)
+	{
+		rear = (rear + 1) % QUEUE_SIZE;
+		queue_size = queue_size + 1;
+		queue[rear] = element;
+	}
+	else
+	{
+		printf("Error: Stack overflow occurs!\n");
+	}
+}
+int pop()
+{
+	if (queue_size > 0)
+	{
+		front = (front + 1) % QUEUE_SIZE;
+		queue_size = queue_size - 1;
+		return queue[front];
+	}
+	else
+	{
+		printf("Error: The queue is already empty! The return value is -1\n");
+		return -1;
+	}
+}
+int size()
+{
+	if (queue_size > 0&&queue_size<=QUEUE_SIZE)
+	{
+		return queue_size;
+	}
+	else if(queue_size>QUEUE_SIZE)
+	{
+		printf("Error: Stack overflow occurs! The return value is -1\n");
+		return -1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+int IsEmpty()
+{
+	if (queue_size == 0)
+		return 1;
+	else
+		return 0;
+}
+int top() //큐의 가장 앞에 있는 원소를 반환한다.
+{
+	if (queue_size > 0)
+	{
+		return queue[front + 1 % QUEUE_SIZE];
+	}
+	else
+	{
+		printf("Error: The queue is already empty! The return value is -1\n");
+		return -1;
+	}
+} 
+int back() //큐의 맨 끝의 원소를 반환한다.
+{
+	if (queue_size > 0)
+	{
+		return queue[rear];
+	}
+	else
+	{
+		printf("Error: The queue is already empty! The return value is -1\n");
+		return -1;
+	}
+}
+int main()
+{
+
+	return 0;
+}
