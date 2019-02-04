@@ -1,0 +1,106 @@
+// 2019-02-05 JANGWON KIM
+// MY_HASH
+
+//#define _CRT_SECURE_NO_WARNINGS
+#define BUCKET 10 // hash의 크기
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct hash {
+	int key;
+	int info;
+	int occupation;
+}HASH;
+
+HASH hash[BUCKET];
+
+// 함수는 insert,delete, 그리고 search
+
+void insert(int key, int info)
+{
+	int i = 0;
+	while (1)
+	{
+		if (hash[(key + i) % BUCKET].key == key&&hash[(key + i) % BUCKET].occupation==1)
+		{
+			hash[(key + i) % BUCKET].info = info;
+			printf("\nWARNING! : The same key value already exists. The data is overwritten.\n");
+			break;
+		}
+		else
+		{
+			if (hash[(key + i) % BUCKET].occupation == 0)
+			{
+				hash[(key + i) % BUCKET].key = key;
+				hash[(key + i) % BUCKET].info = info;
+				hash[(key + i) % BUCKET].occupation = 1;
+				break;
+			}
+			else
+			{
+				i = i + 1;
+				if (i > BUCKET)
+				{
+					printf("ERROR! : The hash basket is full!\n");
+					break;
+				}
+			}
+		}	
+	}
+}
+void delete(int key)
+{
+	int i = 0;
+	while (1)
+	{
+		if (hash[(key + i) % BUCKET].key == key && hash[(key + i) % BUCKET].occupation == 1)
+		{
+			hash[(key + i) % BUCKET].occupation = 0;
+			break;
+		}
+		else
+		{
+			i = i + 1;
+			if (i > BUCKET|| hash[(key + i - 1) % BUCKET].occupation == 0)
+			{
+				printf("ERROR!: Can't find the data!\n");
+				break;
+			}
+		}
+	}
+}
+HASH search(int key)
+{
+	int i = 0;
+	while (1)
+	{
+		if (hash[(key + i) % BUCKET].key == key&& hash[(key + i) % BUCKET].occupation==1)
+		{
+			return hash[(key + i) % BUCKET];
+		}
+		else
+		{
+			i = i + 1;
+			if (i > BUCKET|| hash[(key + i-1) % BUCKET].occupation == 0)
+			{
+				printf("ERROR!: Can't find the data!\n");
+				HASH failure; //오류값을 반환
+				failure.key = -1;
+				failure.info = -1;
+				failure.occupation = 0;
+				return failure;
+			}
+		}
+	}
+}
+
+int main()
+{
+	//초기화
+	for (int i = 0; i < BUCKET; i++)
+	{
+		hash[i].occupation = 0;
+	}
+
+	return 0;
+}
