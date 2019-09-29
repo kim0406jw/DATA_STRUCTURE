@@ -345,7 +345,7 @@ public:
 		_size = 0;
 	}
 
-	~map() {
+	~MyMap() {
 		this->clear();
 	}
 };
