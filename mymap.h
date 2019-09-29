@@ -2,7 +2,7 @@
 /*  **********UNBALANCED BINARY SEARCH TREE***********
 
 
- +++++++++++++2019-09-27+++++++++++++
+ +++++++++++++2019-09-30+++++++++++++
    SungKyunKwan Universirty
 
    Written by, 2013312823 JANGWON KIM.
@@ -13,15 +13,18 @@
 
 /* *****************Member functions*****************
 
-   Declaration: MyMap<KEY, VALUE>
+   Declaration: MyMap<KEY, VALUE>(key, value)
 
-   1) insert(node<key, value>): Insert a node with the key value. If fail to insert, return -1. (Argument is 'node' object.)
-   2) find(key): Return the pointer of node with the key. If fail to search, return NULL value.
-   3) delete(key): Delete the node with the key. If fail to delete, return -1.
-   4) height(): Return height of binary tree.
-   5) size(): Return number of stored elements
-   6) show(): Print the tree by value. Inorder Traversal.
-   7) show_key(): Print the tree by key. Inorder Traversal.
+                node<KEY, VALUE>(key, value)
+
+   1) insert(node<KEY, VALUE>): Insert a node with the key value. If fail to insert, return -1. (Argument is 'node' object.)
+   2) find(key): Return the pointer of node with the key. If fail to search, return NULL.
+   3) delete(key): Delete the node with this key. If fail to delete, return -1.
+   4) clear(): Clear the tree.
+   5) height(): Return the height of binary tree.
+   6) size(): Return the number of stored elements
+   7) show(): Print the tree with value of node. (Inorder Traversal)
+   8) show_key(): Print the tree with value of key. (Inorder Traversal)
 
    */
 
@@ -46,13 +49,12 @@ public:
 	node* left;
 	node* parent;
 	int bias;
-	node(T1 _key, T2 _value) {// Constructor
+	node(T1 _key, T2 _value) {
 		key = _key;
 		value = _value;
 		right = NULL;
 		left = NULL;
 	}
-
 };
 
 template <typename T1, typename T2>
@@ -61,6 +63,49 @@ private:
 	int _size;
 	node<T1, T2>* root_ptr;
 
+	/**********************private functions**********************/
+	void delete_node(node<T1, T2>* node) {
+		if (node == NULL)
+			return;
+		delete_node(node->left);
+		delete_node(node->right);
+		delete node;
+		return;
+	}
+
+	int get_height(node<T1, T2>* _node) {
+		if (_node == NULL)
+			return 0;
+		else {
+			return max(get_height(_node->left), get_height(_node->right)) + 1;
+		}
+
+	}
+
+	node<T1, T2>* find_leftmost(node<T1, T2>* _node) {
+		node<T1, T2>* present_node = _node;
+		while (present_node->left != NULL) {
+			present_node = present_node->left;
+		}
+		return present_node;
+	}
+
+
+	void inorder_key(node<T1, T2>* node) {
+		if (node == NULL)
+			return;
+		inorder_key(node->left);
+		std::cout << node->key << " ";
+		inorder_key(node->right);
+	}
+	void inorder_value(node<T1, T2>* node) {
+		if (node == NULL)
+			return;
+		inorder_value(node->left);
+		std::cout << node->value << " ";
+		inorder_value(node->right);
+	}
+/************************public functions*****************************/
 public:
 	MyMap() {
 		_size = 0;
@@ -104,7 +149,7 @@ public:
 				}
 			}
 			else {
-				std::cout << "This tree already has a node with the same key value." << std::endl;
+				/*std::cout << "This tree already has a node with the same key value." << std::endl;*/
 				return -1;
 			}
 		}
@@ -122,7 +167,6 @@ public:
 				return present_node;
 			}
 		}
-
 		return NULL;
 	}
 	int erase(T1 _key) {
@@ -269,62 +313,40 @@ public:
 							return 0;
 						}
 					}
-
-
 				}
 			}
-
-
 		}
 		return -1;
 	}
-	node<T1, T2>* find_leftmost(node<T1, T2>* _node) {
-		node<T1, T2>* present_node = _node;
-		while (present_node->left != NULL) {
-			present_node = present_node->left;
-		}
-		return present_node;
-	}
 
-
-	void inorder_key(node<T1, T2>* node) {
-		if (node == NULL)
+	void show_key() {    // Print Inorder Traversal/ (key)  
+		if (_size == 0)
 			return;
-		inorder_key(node->left);
-		std::cout << node->key << " ";
-		inorder_key(node->right);
-	}
-	void inorder_value(node<T1, T2>* node) {
-		if (node == NULL)
-			return;
-		inorder_value(node->left);
-		std::cout << node->value << " ";
-		inorder_value(node->right);
-	}
-	void show_key() {                    // Print Inorder Traversal/ (key)
 		node<T1, T2>* root = root_ptr;
 		inorder_key(root);
 	}
-	void show() {                        // Print Inorder Traversal. (value)
+	void show() {       // Print Inorder Traversal. (value)  
+		if (_size == 0)
+			return;
 		node<T1, T2>* root = root_ptr;
 		inorder_value(root);
 	}
-	int size() {                         // Return number of stored elements.
+	int size() {        
+                 // Return number of stored elements.
 		return _size;
 	}
-	int get_height(node<T1, T2>* _node) {
-		if (_node == NULL)
-			return 0;
-		else {
-			return max(get_height(_node->left), get_height(_node->right)) + 1;
-		}
 
-	}
 	int height() {
 		return this->get_height(this->root_ptr);
 	}
-	node<T1, T2>* get_root_ptr() {
-		return this->root_ptr;
+
+	void clear() {
+		delete_node(this->root_ptr);
+		_size = 0;
+	}
+
+	~map() {
+		this->clear();
 	}
 };
 #endif
